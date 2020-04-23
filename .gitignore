@@ -1,9 +1,0 @@
-/.idea/
-/gmall-common/target/
-/gmall-logger/.mvn/
-/gmall-logger/target/
-/gmall-logger/.gitignore
-/gmall-logger/HELP.md
-/gmall-logger/mvnw
-/gmall-logger/mvnw.cmd
-/gmall-mock/target/
