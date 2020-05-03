@@ -88,8 +88,7 @@ object DauApp2 {
     )
 
 
-    println("####################################################")
-    //    7，结束
+    //    7，开始执行
     ssc.start()
     ssc.awaitTermination()
   }
