@@ -87,13 +87,14 @@ object DauApp {
 
     }
 
+import org.apache.phoenix.spark._
+        realFilteredDStream.foreachRDD { rdd =>
+          rdd.saveToPhoenix("gmall_dau",
+            Seq("MID", "UID", "APPID", "AREA", "OS", "CH", "TYPE", "VS", "LOGDATE", "LOGHOUR", "TS"),
+            new Configuration,
+            Some("node1:2181"))
 
-    //    realFilteredDStream.foreachRDD { rdd =>
-    //
-    //      rdd.saveToPhoenix("gmall0311_dau", Seq("MID", "UID", "APPID", "AREA", "OS", "CH", "TYPE", "VS", "LOGDATE", "LOGHOUR", "TS"),
-    //        new Configuration, Some("hadoop1,hadoop2,hadoop3:2181"))
-    //
-    //    }
+        }
 
 
     println("启动流程")

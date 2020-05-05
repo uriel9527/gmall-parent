@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!---->
+<mapper namespace="com.peng.gmall.publisher.mapper.DauMapper">
+    <select id="getDauTotal" resultType="java.lang.Long">
+       select count(1) ct from gmall_dau   where logdate=#{date}
+    </select>
+
+
+    <select id="getDauHourCount" resultMap="hourMap">
+      select loghour,count(1) ct from gmall_dau where logdate=#{date}
+      group by loghour
+    </select>
+
+    <!--    返回值list套map-->
+    <resultMap id="hourMap" type="java.util.Map" autoMapping="true">
+        <!--   不重新命名  autoMapping="true"就可以 重命名加下面配置    -->
+        <!--        <result column="LOGHOUR" property="logHour"></result>-->
+        <!--        <result column="CT" property="ct"></result>-->
+    </resultMap>
+</mapper>

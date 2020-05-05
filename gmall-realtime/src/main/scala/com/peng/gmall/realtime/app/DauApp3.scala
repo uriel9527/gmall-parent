@@ -8,13 +8,14 @@ import com.alibaba.fastjson.JSON
 import com.peng.gmall.common.constant.GmallConstants
 import com.peng.gmall.realtime.bean.StartupLog
 import com.peng.gmall.realtime.util.MyKafkaUtil
+import org.apache.hadoop.conf.Configuration
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.dstream.{DStream, InputDStream}
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
-import org.apache.spark.{SparkConf, SparkContext, broadcast}
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import redis.clients.jedis.Jedis
 
@@ -103,7 +104,19 @@ object DauApp3 {
       }
     }
 
-    //6,开始执行
+    //6,存到phoenix里
+    import org.apache.phoenix.spark._
+    realFliterDStream.foreachRDD{ rdd =>
+      rdd.saveToPhoenix(
+        "gmall_dau",
+        Seq("MID", "UID", "APPID", "AREA", "OS", "CH", "TYPE", "VS", "LOGDATE", "LOGHOUR", "TS"),
+        new Configuration(),
+        Some("node1:2181")
+      )
+    }
+
+
+    //7,开始执行
     ssc.start()
     ssc.awaitTermination()
   }
